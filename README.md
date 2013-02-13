@@ -27,7 +27,7 @@ It is simple wrapper around `bundle exec cucumber` command.  Directory layout sh
 
 - cucumber_publisher run `bundle exec cucumber` command from every subdirectory in `$WORKSPACE/cucumber/`
 
-![layout](https://raw.github.com/melezhik/perl-plugin/master/images/layout.png "cucumber_publisher interface")
+![layout](https://raw.github.com/melezhik/cucumber-plugin/master/images/layout.png "cucumber_publisher interface")
 
 # Environment setup
 
