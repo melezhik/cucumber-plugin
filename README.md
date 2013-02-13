@@ -49,4 +49,3 @@ Setup your standard encoding.
 
     ru_RU.UTF-8
 
-
