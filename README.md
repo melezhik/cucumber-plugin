@@ -14,7 +14,9 @@ following packages should be installed:
 exported publishers
 ===
 
-# run cucumber tests
+# cucumber_publisher
+
+## run cucumber tests
 
 It is simple wrapper around `bundle exec cucumber` command.  Directory layout should follow this scheme:
 
@@ -23,12 +25,9 @@ It is simple wrapper around `bundle exec cucumber` command.  Directory layout sh
     $WORKSPACE/cucumber/test-suite-three/
     # etc
 
-- perl_publisher run `bundle exec cucumber` command from every subdirectory in `$WORKSPACE/cucumber/`
+- cucumber_publisher run `bundle exec cucumber` command from every subdirectory in `$WORKSPACE/cucumber/`
 
-
-![perl_publisher_cucumber](https://raw.github.com/melezhik/perl-plugin/master/images/perl_publisher_cucumber.png "perl_publisher_cucumber interface")
-
-
+![layout](https://raw.github.com/melezhik/perl-plugin/master/images/layout.png "cucumber_publisher interface")
 
 # Environment setup
 
