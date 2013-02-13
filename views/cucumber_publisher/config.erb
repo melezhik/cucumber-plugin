@@ -1,0 +1,20 @@
+<%
+f = taglib("/lib/form")
+
+f.entry(:title => '<b>run tests</b>', :field => 'run_test', :description => "enable this to run cucumber tests against remote machine") do
+  f.checkbox
+end
+
+f.entry(:title => 'cucumber profile', :field => 'cucumber_profile', :description => "cucumber profile") do
+  f.textbox
+end
+
+f.entry(:title => 'color output', :field => 'color_output', :description => "enable/disable color output") do
+  f.checkbox
+end
+
+f.entry(:title => 'display id', :field => 'display', :description => "set up this to run tests under Xvfb or Xvnc") do
+  f.textbox
+end
+
+%>
