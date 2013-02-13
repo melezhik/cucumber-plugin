@@ -2,7 +2,7 @@ class CucumberPublisher < Jenkins::Tasks::Publisher
 
     attr_accessor :run_test, :cucumber_profile, :browser, :display, :color_output
 
-    display_name "run cucumber tests"
+    display_name "Run cucumber tests"
 
     def initialize(attrs = {})
         @run_test = attrs["run_test"]
