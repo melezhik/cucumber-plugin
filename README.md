@@ -14,9 +14,9 @@ following packages should be installed:
 exported publishers
 ===
 
-# cucumber_publisher
+## cucumber_publisher
 
-## run cucumber tests
+### run cucumber tests
 
 It is simple wrapper around `bundle exec cucumber` command.  Directory layout should follow this scheme:
 
@@ -29,7 +29,8 @@ It is simple wrapper around `bundle exec cucumber` command.  Directory layout sh
 
 ![layout](https://raw.github.com/melezhik/cucumber-plugin/master/images/layout.png "cucumber_publisher interface")
 
-# Environment setup
+Environment setup
+===
 
 You can set environment variables via "Jenkins/Configuration/Global properties/Environment variables" interface to adjust plugin behavior.
 
