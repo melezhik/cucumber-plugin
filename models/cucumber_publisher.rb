@@ -1,11 +1,11 @@
 class CucumberPublisher < Jenkins::Tasks::Publisher
 
-    attr_accessor :run_test, :cucumber_profile, :browser, :display, :color_output
+    attr_accessor :enabled, :cucumber_profile, :browser, :display, :color_output
 
     display_name "Run cucumber tests"
 
     def initialize(attrs = {})
-        @run_test = attrs["run_test"]
+        @enabled = attrs["enabled"]
         @cucumber_profile = attrs["cucumber_profile"]
         @browser = attrs["browser"] || 'chrome'
         @display = attrs["display"]
@@ -22,7 +22,7 @@ class CucumberPublisher < Jenkins::Tasks::Publisher
 
         env = build.native.getEnvironment()
 
-        if @run_test == true
+        if @enabled == true
 
             workspace = build.send(:native).workspace.to_s
             listener.info "cucumber profile: #{@cucumber_profile}"
