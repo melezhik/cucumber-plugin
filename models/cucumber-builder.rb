@@ -1,4 +1,4 @@
-class CucumberPublisher < Jenkins::Tasks::Publisher
+class CucumberBuilder < Jenkins::Tasks::Builder
 
     attr_accessor :enabled, :cucumber_profile, :browser, :display, :color_output
 
