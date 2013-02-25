@@ -11,10 +11,10 @@ following packages should be installed:
 - ruby installed with rvm in `single-user install mode`
 - ruby bundler
 
-exported publishers
+exported builders
 ===
 
-## cucumber_publisher
+## cucumber_builder
 
 ### run cucumber tests
 
