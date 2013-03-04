@@ -43,7 +43,6 @@ Standard way to do things when you behind http proxy server.
 cucumber_publisher runs tests with rvm installed ruby of `default version 1.8.7`, specify another one if you have ruby installed of another version.
 
     1.9.3
-    1.8.7
 
 ## LC_ALL
 Setup your standard encoding.
