@@ -13,6 +13,10 @@ f.entry(:title => 'color output', :field => 'color_output', :description => "ena
   f.checkbox
 end
 
+f.entry(:title => 'verbosity', :field => 'verbosity', :description => "enable/disable verbosity") do
+  f.checkbox
+end
+
 f.entry(:title => 'display ID', :field => 'display', :description => "set up display ID to run tests under Xvfb or Xvnc") do
   f.textbox
 end
