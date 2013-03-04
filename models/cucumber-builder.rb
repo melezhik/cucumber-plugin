@@ -1,6 +1,6 @@
 class CucumberBuilder < Jenkins::Tasks::Builder
 
-    attr_accessor :enabled, :cucumber_profile, :browser, :display, :color_output, :test_path
+    attr_accessor :enabled, :cucumber_profile, :browser, :display, :color_output, :cucumber_dir
 
     display_name "Run cucumber tests"
 
@@ -10,7 +10,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
         @browser = attrs["browser"] || 'chrome'
         @display = attrs["display"]
         @color_output = attrs["color_output"]
-        @test_path = attrs["test_path"]
+        @cucumber_dir = attrs["cucumber_dir"]
     end
 
     def prebuild(build, listener)
@@ -33,34 +33,26 @@ class CucumberBuilder < Jenkins::Tasks::Builder
             ruby_version = env['cucumber_ruby_version'] || default_ruby_version
             listener.info "ruby_version: #{ruby_version}"                
 
-            if ! @test_path.nil?
-                listener.info "run #{@test_path} tests"
-                cmd = []
-                cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
-                cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
-                cmd << "export http_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
-                cmd << "export https_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
-                cmd << "cd #{workspace}/#{@test_path}"
-                cmd << "rvm use ruby #{ruby_version}"
-                cmd << "bundle"
-                display = ''
-                display = "DISPLAY=#{@display}" unless @display.nil? || @display.empty?    
-                cmd << "bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=127.0.0.1 browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
-                test_pass_ok = false if launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } ) != 0
-            else 
-                listener.info "run tests"
-                cmd = []
-                cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
-                cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
-                cmd << "export http_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
-                cmd << "export https_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
-                cmd << "rvm use ruby #{ruby_version}"
-                cmd << "bundle"
-                display = ''
-                display = "DISPLAY=#{@display}" unless @display.nil? || @display.empty?    
-                cmd << "bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=127.0.0.1 browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
-                test_pass_ok = false if launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } ) != 0
+            cmd = []
+            cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
+            cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
+            cmd << "export http_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
+            cmd << "export https_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
+
+            unless @cucumber_dir.nil? || @cucumber_dir.empty? 
+                listener.info "runnig tests from #{workspace}/#{@cucumber_dir}"
+                cmd << "cd #{workspace}/#{@cucumber_dir}"  
+            else
+                listener.info "runnig tests from #{workspace}/"
+                cmd << "cd #{workspace}"
             end
+
+            cmd << "rvm use ruby #{ruby_version}"
+            cmd << "bundle"
+            display = ''
+            display = "DISPLAY=#{@display}" unless @display.nil? || @display.empty?    
+            cmd << "bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=127.0.0.1 browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
+            test_pass_ok = false if launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } ) != 0
 
             build.abort if test_pass_ok == false
 
