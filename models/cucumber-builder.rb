@@ -1,6 +1,6 @@
 class CucumberBuilder < Jenkins::Tasks::Builder
 
-    attr_accessor :enabled, :cucumber_profile, :browser, :display, :color_output, :cucumber_dir
+    attr_accessor :enabled, :cucumber_profile, :browser, :display, :color_output, :cucumber_dir, :verbosity
 
     display_name "Run cucumber tests"
 
@@ -11,6 +11,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
         @display = attrs["display"]
         @color_output = attrs["color_output"]
         @cucumber_dir = attrs["cucumber_dir"]
+        @verbosity = attrs["verbosity"]
     end
 
     def prebuild(build, listener)
@@ -32,7 +33,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
             test_pass_ok = true
             ruby_version = env['cucumber_ruby_version'] || default_ruby_version
             listener.info "ruby_version: #{ruby_version}"                
-
+            
             cmd = []
             cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
             cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
@@ -46,16 +47,19 @@ class CucumberBuilder < Jenkins::Tasks::Builder
                 listener.info "runnig tests from #{workspace}/"
                 cmd << "cd #{workspace}"
             end
-
+            
             cmd << "rvm use ruby #{ruby_version}"
-            cmd << "bundle"
+            
+            if @verbosity == true
+                cmd << "bundle"
+            else
+                cmd << "bundle --quiet"
+            end
+
             display = ''
             display = "DISPLAY=#{@display}" unless @display.nil? || @display.empty?    
             cmd << "bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=127.0.0.1 browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
             build.abort if launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } ) != 0
-
-            
-
         end
 
     end
