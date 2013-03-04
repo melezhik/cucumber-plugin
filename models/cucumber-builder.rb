@@ -33,11 +33,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
             test_pass_ok = true
             ruby_version = env['cucumber_ruby_version'] || default_ruby_version
             listener.info "ruby_version: #{ruby_version}"                
-
-            listener.info @verbosity == true ? "bundle" : "bundle --quiet"
-
-            verbose = @verbosity == true ? "bundle" : "bundle --quiet"
-
+            
             cmd = []
             cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
             cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
