@@ -52,9 +52,9 @@ class CucumberBuilder < Jenkins::Tasks::Builder
             display = ''
             display = "DISPLAY=#{@display}" unless @display.nil? || @display.empty?    
             cmd << "bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=127.0.0.1 browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
-            test_pass_ok = false if launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } ) != 0
+            build.abort if launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } ) != 0
 
-            build.abort if test_pass_ok == false
+            
 
         end
 
