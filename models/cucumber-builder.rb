@@ -37,7 +37,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
                 listener.info "#{green("ruby_version:")} #{blue("#{ruby_version}")}"
                 listener.info "#{green("cucumber profile:")} #{blue("#{@cucumber_profile}")}"
             else
-                listener.info "running cucumber tests ... "
+                listener.info "runing cucumber tests ... "
                 listener.info "ruby_version: #{ruby_version}"                
                 listener.info "cucumber profile: #{@cucumber_profile}"
             end
