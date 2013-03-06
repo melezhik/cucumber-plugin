@@ -1,7 +1,8 @@
 require 'term/ansicolor'
 
 class CucumberBuilder < Jenkins::Tasks::Builder
-    include Term::ANSIColor
+
+    extend Term::ANSIColor
 
     attr_accessor :enabled, :cucumber_profile, :browser, :display, :color_output, :cucumber_dir, :verbosity
 
