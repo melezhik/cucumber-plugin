@@ -33,11 +33,11 @@ class CucumberBuilder < Jenkins::Tasks::Builder
             workspace = build.send(:native).workspace.to_s
 
             if @color_output == true
-                listener.info magenta("runing cucumber tests ... ")
-                listener.info "#{magenta("ruby_version:")} #{blue("#{ruby_version}")}"
-                listener.info "#{magenta("cucumber profile:")} #{blue("#{@cucumber_profile}")}"
+                listener.info bold("runing cucumber tests")
+                listener.info "#{black(red(bold("ruby_version:")))} #{bold(black(blue("#{ruby_version}")))}"
+                listener.info "#{black(red(bold("cucumber profile:")))} #{bold(black(blue("#{@cucumber_profile}")))}"
             else
-                listener.info "runing cucumber tests ... "
+                listener.info "runing cucumber tests"
                 listener.info "ruby_version: #{ruby_version}"                
                 listener.info "cucumber profile: #{@cucumber_profile}"
             end
@@ -49,10 +49,10 @@ class CucumberBuilder < Jenkins::Tasks::Builder
             cmd << "export https_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
 
             unless @cucumber_dir.nil? || @cucumber_dir.empty? 
-                listener.info (@color_output == true) ? "#{magenta("runing from")} #{blue("#{cucumber_dir}")}" : "runing from #{cucumber_dir}"
+                listener.info (@color_output == true) ? "#{black(red(bold("directory:")))} #{bold(black(blue("#{cucumber_dir}")))}" : "directory: #{cucumber_dir}"
                 cmd << "cd #{workspace}/#{@cucumber_dir}"  
             else
-                listener.info (@color_output == true) ? "#{magenta("directory:")} #{blue("default")}" : "directory: default"
+                listener.info (@color_output == true) ? "#{black(red(bold("directory:")))} #{bold(black(blue("#{default}")))}" : "directory: default"
                 cmd << "cd #{workspace}"
             end
             
