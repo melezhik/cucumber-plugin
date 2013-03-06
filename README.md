@@ -1,31 +1,20 @@
-cucumber-plugin
-===
+# cucumber-plugin
 
 run cucumber tests under Jenkins CI
 
-prerequisites
-===
+# prerequisites
 
 following packages should be installed:
 
 - ruby installed with rvm in `single-user install mode`
 - ruby bundler
 
-exported builders
-===
+# exported builders
 
 ## cucumber_builder
 
-### run cucumber tests
-
-It is simple wrapper around `bundle exec cucumber` command.  Directory layout should follow this scheme:
-
-    $WORKSPACE/cucumber/test-suite-one/
-    $WORKSPACE/cucumber/test-suite-two/
-    $WORKSPACE/cucumber/test-suite-three/
-    # etc
-
-- cucumber_publisher run `bundle exec cucumber` command from every subdirectory in `$WORKSPACE/cucumber/`
+- It is simple wrapper around `bundle exec cucumber` command
+- Runs `bundle exec cucumber` command from directory `cucumber dir`
 
 ![layout](https://raw.github.com/melezhik/cucumber-plugin/master/images/layout.png "cucumber_publisher interface")
 

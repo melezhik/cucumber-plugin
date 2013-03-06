@@ -5,24 +5,27 @@ f.entry(:title => 'enabled', :field => 'enabled', :description => "enable/disabl
   f.checkbox
 end
 
+f.entry(:title => 'cucumber dir', :field => 'cucumber_dir', :description => "set path to directory holding cucumber tests") do
+  f.textbox
+end
+
 f.entry(:title => 'cucumber profile', :field => 'cucumber_profile', :description => "cucumber profile") do
   f.textbox
 end
 
-f.entry(:title => 'color output', :field => 'color_output', :description => "enable/disable color output") do
-  f.checkbox
-end
+f.advanced do    
+    f.entry(:title => 'color output', :field => 'color_output', :description => "enable/disable color output") do
+      f.checkbox
+    end
 
-f.entry(:title => 'verbosity', :field => 'verbosity', :description => "enable/disable verbosity") do
-  f.checkbox
-end
+    f.entry(:title => 'verbosity', :field => 'verbosity', :description => "enable/disable verbosity") do
+      f.checkbox
+    end
 
-f.entry(:title => 'display ID', :field => 'display', :description => "set up display ID to run tests under Xvfb or Xvnc") do
-  f.textbox
-end
-
-f.entry(:title => 'cucumber dir', :field => 'cucumber_dir', :description => "set path to cucumber tests") do
-  f.textbox
+    f.entry(:title => 'display ID', :field => 'display', :description => "set up display ID to run tests under Xvfb or Xvnc") do
+      f.textbox
+    end
 end
 
 %>
+
