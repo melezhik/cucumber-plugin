@@ -53,7 +53,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
                 listener.info (@color_output == true) ? "#{black(red(bold("directory:")))} #{bold(black(blue("#{cucumber_dir}")))}" : "directory: #{cucumber_dir}"
                 cmd << "cd #{workspace}/#{@cucumber_dir}"  
             else
-                listener.info (@color_output == true) ? "#{black(red(bold("directory:")))} #{bold(black(blue("#{default}")))}" : "directory: default"
+                listener.info (@color_output == true) ? "#{black(red(bold("directory:")))} #{bold(black(blue(default)))}" : "directory: default"
                 cmd << "cd #{workspace}"
             end
             
