@@ -25,11 +25,11 @@ class CucumberBuilder < Jenkins::Tasks::Builder
         '1.8.7'
     end
 
-    def formatted_text(key,value)
+    def formatted_text(title,message)
         if @color_output == true
-            string = "#{black(red(bold("#{key}")))} #{bold(black(blue("#{value}")))}"
+            string = "#{black(red(bold("#{title}")))} #{bold(black(blue("#{message}")))}"
         else
-            string = "#{key} #{value}"
+            string = "#{title} #{message}"
         end
         string
     end
@@ -54,10 +54,11 @@ class CucumberBuilder < Jenkins::Tasks::Builder
             else
                 listener.info "runing cucumber tests"
             end
-
+            listener.info formatted_text('stage', 'runing cucumber tests')
             listener.info formatted_text('ruby_version:', ruby_version)
             listener.info formatted_text('cucumber profile:', @cucumber_profile)
             listener.info formatted_text('directory:', File.basename(cucumber_dir))
+
             cmd = []
             cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
             cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
