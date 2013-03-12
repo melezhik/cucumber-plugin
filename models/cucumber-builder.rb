@@ -24,6 +24,16 @@ class CucumberBuilder < Jenkins::Tasks::Builder
     def default_ruby_version
         '1.8.7'
     end
+
+    def formatted_text(key,value)
+        if @color_output == true
+            string = "#{black(red(bold("#{key}")))} #{bold(black(blue("#{value}")))}"
+        else
+            string = "#{key} #{value}"
+        end
+        string
+    end
+
     def perform(build, launcher, listener)
 
         env = build.native.getEnvironment()
@@ -33,30 +43,27 @@ class CucumberBuilder < Jenkins::Tasks::Builder
             ruby_version = env['cucumber_ruby_version'] || default_ruby_version
             workspace = build.send(:native).workspace.to_s
 
-            if @color_output == true
-                listener.info bold("runing cucumber tests")
-                listener.info "#{black(red(bold("ruby_version:")))} #{bold(black(blue("#{ruby_version}")))}"
-                listener.info "#{black(red(bold("cucumber profile:")))} #{bold(black(blue("#{@cucumber_profile}")))}"
-            else
-                listener.info "runing cucumber tests"
-                listener.info "ruby_version: #{ruby_version}"                
-                listener.info "cucumber profile: #{@cucumber_profile}"
+            if @cucumber_dir.nil? || @cucumber_dir.empty? 
+                cucumber_dir = workspace
+            else 
+                cucumber_dir = "#{workspace}/#{@cucumber_dir}"
             end
 
+            if @color_output == true
+                listener.info bold("runing cucumber tests")
+            else
+                listener.info "runing cucumber tests"
+            end
+
+            listener.info formatted_text('ruby_version:', ruby_version)
+            listener.info formatted_text('cucumber profile:', @cucumber_profile)
+            listener.info formatted_text('directory:', File.basename(cucumber_dir))
             cmd = []
             cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
             cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
             cmd << "export http_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
             cmd << "export https_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
-
-            unless @cucumber_dir.nil? || @cucumber_dir.empty? 
-                listener.info (@color_output == true) ? "#{black(red(bold("directory:")))} #{bold(black(blue("#{cucumber_dir}")))}" : "directory: #{cucumber_dir}"
-                cmd << "cd #{workspace}/#{@cucumber_dir}"  
-            else
-                listener.info (@color_output == true) ? "#{black(red(bold("directory:")))} #{bold(black(blue("#{default}")))}" : "directory: default"
-                cmd << "cd #{workspace}"
-            end
-            
+            cmd << "cd 1#{cucumber_dir}"
             cmd << "rvm use ruby #{ruby_version}"
             
             if @verbosity == true
