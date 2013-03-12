@@ -49,11 +49,6 @@ class CucumberBuilder < Jenkins::Tasks::Builder
                 cucumber_dir = "#{workspace}/#{@cucumber_dir}"
             end
 
-            if @color_output == true
-                listener.info bold("runing cucumber tests")
-            else
-                listener.info "runing cucumber tests"
-            end
             listener.info formatted_text('stage', 'runing cucumber tests')
             listener.info formatted_text('ruby_version:', ruby_version)
             listener.info formatted_text('cucumber profile:', @cucumber_profile)
