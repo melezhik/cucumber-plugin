@@ -49,7 +49,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
                 cucumber_dir = "#{workspace}/#{@cucumber_dir}"
             end
 
-            listener.info formatted_text('stage', 'runing cucumber tests')
+            listener.info formatted_text('stage:', 'runing cucumber tests')
             listener.info formatted_text('ruby_version:', ruby_version)
             listener.info formatted_text('cucumber profile:', @cucumber_profile)
             listener.info formatted_text('directory:', File.basename(cucumber_dir))
