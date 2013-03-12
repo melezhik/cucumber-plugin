@@ -1,13 +1,14 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
+  remote: http://melezhik.x:9292/
   specs:
     jenkins-plugin-runtime (0.2.3)
       json
       slop (~> 3.0.2)
     json (1.7.7)
     json (1.7.7-java)
+    simple_console (0.0.1)
     slop (3.0.4)
-    term-ansicolor (1.0.7)
 
 PLATFORMS
   java
@@ -15,4 +16,4 @@ PLATFORMS
 
 DEPENDENCIES
   jenkins-plugin-runtime
-  term-ansicolor
+  simple_console

@@ -1,5 +1,8 @@
-source :rubygems
+source 'https://rubygems.org'
+source "http://melezhik.x:9292"
 gem "jenkins-plugin-runtime"
-gem "term-ansicolor"
+gem "simple_console"
+
+
 
 
