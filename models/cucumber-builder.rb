@@ -57,7 +57,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
 
             listener.info formatted_text('ruby_version:', ruby_version)
             listener.info formatted_text('cucumber profile:', @cucumber_profile)
-            listener.info formatted_text('directory:', cucumber_dir)
+            listener.info formatted_text('directory:', File.basename(cucumber_dir))
             cmd = []
             cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
             cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
