@@ -3,7 +3,7 @@ require 'simple/console'
 class CucumberBuilder < Jenkins::Tasks::Builder
 
     attr_accessor :enabled, :cucumber_profile, :browser
-    atrr_accessor :display, :color_output, :cucumber_dir, :verbosity
+    attr_accessor :display, :color_output, :cucumber_dir, :verbosity
 
     display_name "Run cucumber tests"
 
