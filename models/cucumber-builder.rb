@@ -1,8 +1,6 @@
-require 'term/ansicolor'
+require 'simple/console'
 
 class CucumberBuilder < Jenkins::Tasks::Builder
-
-    include Term::ANSIColor
 
     attr_accessor :enabled, :cucumber_profile, :browser, :display, :color_output, :cucumber_dir, :verbosity
 
@@ -25,18 +23,10 @@ class CucumberBuilder < Jenkins::Tasks::Builder
         '1.8.7'
     end
 
-    def formatted_text(title,message)
-        if @color_output == true
-            string = "#{black(red(bold("#{title}")))} #{bold(black(blue("#{message}")))}"
-        else
-            string = "#{title} #{message}"
-        end
-        string
-    end
-
     def perform(build, launcher, listener)
 
         env = build.native.getEnvironment()
+        @sc = Simple::Console.new(:color_output => @color_output)        
 
         if @enabled == true
 
@@ -49,17 +39,17 @@ class CucumberBuilder < Jenkins::Tasks::Builder
                 cucumber_dir = "#{workspace}/#{@cucumber_dir}"
             end
 
-            listener.info formatted_text('stage:', 'runing cucumber tests')
-            listener.info formatted_text('ruby_version:', ruby_version)
-            listener.info formatted_text('cucumber profile:', @cucumber_profile)
-            listener.info formatted_text('directory:', File.basename(cucumber_dir))
+            listener.info @sc.info('runing cucumber tests', :title => 'stage')
+            listener.info @sc.info(ruby_version, :title => 'ruby_version')
+            listener.info @sc.info(@cucumber_profile, :title => 'cucumber profile')
+            listener.info @sc.info(File.basename(cucumber_dir), :title => 'directory')
 
             cmd = []
             cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
             cmd << "source #{env['HOME']}/.rvm/scripts/rvm"
             cmd << "export http_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
             cmd << "export https_proxy=#{env['http_proxy']}" unless (env['http_proxy'].nil? ||  env['http_proxy'].empty?)
-            cmd << "cd 1#{cucumber_dir}"
+            cmd << "cd #{cucumber_dir}"
             cmd << "rvm use ruby #{ruby_version}"
             
             if @verbosity == true
