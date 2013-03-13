@@ -39,8 +39,6 @@ class CucumberBuilder < Jenkins::Tasks::Builder
                 cucumber_dir = "#{workspace}/#{@cucumber_dir}"
             end
 
-            @sc.info("test", :title => "testssss")
-
             listener.info @sc.info('runing cucumber tests', :title => 'stage')
             listener.info @sc.info(ruby_version, :title => 'ruby_version')
             listener.info @sc.info(@cucumber_profile, :title => 'cucumber profile')
