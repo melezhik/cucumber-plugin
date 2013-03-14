@@ -1,7 +1,7 @@
 Jenkins::Plugin::Specification.new do |plugin|
   plugin.name = "cucumber"
   plugin.display_name = "Cucumber Plugin"
-  plugin.version = '0.0.1'
+  plugin.version = '0.0.2'
   plugin.description = 'run cucumber tests under jenkins CI'
 
   # You should create a wiki-page for your plugin when you publish it, see
