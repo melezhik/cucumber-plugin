@@ -27,7 +27,7 @@ class CucumberBuilder < Jenkins::Tasks::Builder
     def perform(build, launcher, listener)
 
         env = build.native.getEnvironment()
-        @sc = Simple::Console.new(:color_output => @color_output)        
+        sc = Simple::Console.new(:color_output => @color_output)        
 
         if @enabled == true
 
@@ -40,10 +40,10 @@ class CucumberBuilder < Jenkins::Tasks::Builder
                 cucumber_dir = "#{workspace}/#{@cucumber_dir}"
             end
 
-            listener.info @sc.info('runing cucumber tests', :title => 'stage')
-            listener.info @sc.info(ruby_version, :title => 'ruby_version')
-            listener.info @sc.info(@cucumber_profile, :title => 'cucumber profile')
-            listener.info @sc.info(File.basename(cucumber_dir), :title => 'directory')
+            listener.info sc.info('runing cucumber tests', :title => 'stage')
+            listener.info sc.info(ruby_version, :title => 'ruby_version')
+            listener.info sc.info(@cucumber_profile, :title => 'cucumber profile')
+            listener.info sc.info(File.basename(cucumber_dir), :title => 'directory')
 
             cmd = []
             cmd << "export LC_ALL=#{env['LC_ALL']}" unless ( env['LC_ALL'].nil? || env['LC_ALL'].empty? )
