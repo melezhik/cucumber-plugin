@@ -1,3 +1,6 @@
+# 0.0.3
+- new parameter `ignore_failures` 
+
 # 0.0.2
 - replace publisher by builder
 - view: change order of `display ID` and `cucumber directory` controls 
