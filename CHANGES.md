@@ -1,5 +1,7 @@
 # 0.0.3
-- new parameter `ignore_failures` 
+- new parameter `ignore_failures`
+- now after tests are done status file is created with the state of tests run, it's handy when `ignore_failures` is on
+and you delegate failures handling to further build steps (like shell scripts)
 
 # 0.0.2
 - replace publisher by builder
