@@ -13,6 +13,10 @@ f.entry(:title => 'cucumber profile', :field => 'cucumber_profile', :description
   f.textbox
 end
 
+f.entry(:title => 'ignore failures', :field => 'ignore_failures', :description => "whether ignore or not ignore tests failures") do
+  f.checkbox
+end
+
 f.advanced do    
     f.entry(:title => 'color output', :field => 'color_output', :description => "enable/disable color output") do
       f.checkbox

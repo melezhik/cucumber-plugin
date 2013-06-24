@@ -2,13 +2,14 @@ require 'simple/console'
 
 class CucumberBuilder < Jenkins::Tasks::Builder
 
-    attr_accessor :enabled, :cucumber_profile, :browser
+    attr_accessor :enabled, :cucumber_profile, :ignore_failures, :browser
     attr_accessor :display, :color_output, :cucumber_dir, :verbosity
 
     display_name "Run cucumber tests"
 
     def initialize(attrs = {})
         @enabled = attrs["enabled"]
+        @ignore_failures = attrs["ignore_failures"]
         @cucumber_profile = attrs["cucumber_profile"]
         @browser = attrs["browser"] || 'chrome'
         @display = attrs["display"]
@@ -61,8 +62,17 @@ class CucumberBuilder < Jenkins::Tasks::Builder
 
             display = ''
             display = "DISPLAY=#{@display}" unless @display.nil? || @display.empty?    
-            cmd << "bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=127.0.0.1 browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
-            build.abort if launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } ) != 0
+            cmd << "rm -rf #{workspace}/test.pass.ok && bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=127.0.0.1 browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
+            cmd << "touch #{workspace}/test.pass.ok"
+            test_run_status = launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } )
+            if test_run_status != 0 and @ignore_failures == false
+              build.abort 
+            elsif test_run_status != 0 and @ignore_failures == true
+              listener.info 'tests failed but because of "ignore_failures" is on, we continue here'
+            else
+              listener.info 'tests are passed'
+            end
+            
         end
 
     end
