@@ -62,13 +62,14 @@ class CucumberBuilder < Jenkins::Tasks::Builder
 
             display = ''
             display = "DISPLAY=#{@display}" unless @display.nil? || @display.empty?    
-            cmd << "rm -rf #{workspace}/test.pass.ok && bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=127.0.0.1 browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
-            cmd << "touch #{workspace}/test.pass.ok"
+            cmd << "bundle exec cucumber -p #{@cucumber_profile} -c no_proxy=#{env['no_proxy']} browser=#{@browser} #{display} #{@color_output == true ? '--color' : '--no-color'}"
+            
             test_run_status = launcher.execute("bash", "-c", cmd.join(' && '), { :out => listener } )
             if test_run_status != 0 and @ignore_failures == false
               build.abort 
             elsif test_run_status != 0 and @ignore_failures == true
               listener.info 'tests failed but because of "ignore_failures" is on, we continue here'
+              launcher.execute("bash", "-c", "touch #{workspace}/test.fail", { :out => listener } )
             else
               listener.info 'tests are passed'
             end

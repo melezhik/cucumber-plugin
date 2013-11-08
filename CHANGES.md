@@ -1,3 +1,6 @@
+# 0.0.4
+- no_proxy is setted now by environment
+
 # 0.0.3
 - new parameter `ignore_failures`
 - now after tests are done status file is created with the state of tests run, it's handy when `ignore_failures` is on
